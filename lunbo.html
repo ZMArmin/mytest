@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			*{margin:0;padding:0}
+			li{list-style: none;}
+			a{text-decoration: none;}
+			#div{width: 850px;
+				margin:100px auto;
+				height: 500px;
+				overflow: hidden;
+				position: relative;}
+			#div #box{
+				height: 500px;
+				position: absolute;
+				left:-850px;
+				top:0;
+			}
+			#div #box li{
+				width: 850px;
+				height: 500px;
+				float:left;
+				z-index: 5;
+			}
+			#div ol{
+				position: absolute;
+				left: 10%;
+				bottom:10px;
+				z-index: 1;
+			}
+			#div ol li{
+				width: 20px;
+				height: 20px;
+				border-radius: 10px;
+				background: #fff;
+				margin-left: 5px;
+				float:left;
+				cursor: pointer;
+				z-index: 6;
+			}
+			#div img{width: 850px;height: 500px;}
+			#div ol li.ac{
+				background: orange;
+				color:#fff;
+			}
+			#div>a{
+				position: absolute;
+				top:50%;
+				margin-top: -10px;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+				vertical-align: middle;
+				font-size: 40px;
+				color:#fff;
+				background: rgba(0,0,0,0.5);
+				z-index: 6;
+			}
+			#goPrev{left: 0;}
+			#goNext{right:0;}
+		</style>
+	</head>
+	<body>
+		
+		<div id="div">
+			<ul id="box">
+				<li><a href="javarscript:;"><img src="img/5.jpg" alt=""></a></li>
+				<li><a href="javarscript:;"><img src="img/1.jpg" alt=""></a></li>
+				<li><a href="javarscript:;"><img src="img/2.jpg" alt=""></a></li>
+				<li><a href="javarscript:;"><img src="img/3.jpg" alt=""></a></li>
+				<li><a href="javarscript:;"><img src="img/4.jpg" alt=""></a></li>
+				<li><a href="javarscript:;"><img src="img/5.jpg" alt=""></a></li>
+				<li><a href="javarscript:;"><img src="img/1.jpg" alt=""></a></li>
+			</ul>
+			<ol>
+				<li class="ac"></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ol>
+			<a href="javarscript:;" id="goPrev">&laquo;</a>
+			<a href="javarscript:;" id="goNext">&raquo;</a>
+		</div>
+		<script type="text/javascript" src="js/mytools.js"></script>
+		<script type="text/javascript">
+			class lunbo{
+				constructor(selector) {
+				   this.container = document.querySelector(selector);
+					this.box = document.querySelector("#box");
+					this.imgs=this.box.querySelectorAll("li");
+					//获取所有的按钮
+					this.btns = this.container.querySelector("ol").children;
+					
+					this.goNext = document.querySelector("#goNext");
+					this.goPrev = document.querySelector("#goPrev");
+					//定义一个数记录位移的下标
+					this.index = 0;
+					this.lastIndex = 0;
+					this.timer = null;
+					//动态的设置box,即ul的宽度,方便后期移动位置
+					this.box.style.width = this.imgs[0].offsetWidth*this.imgs.length +"px";
+					//给ul设置初始的位置
+					
+					
+					this.bindEvents();
+				}
+				//绑事件函数,把所有绑事件的集中在一起
+				bindEvents(){
+					//遍历所有的按钮,一次绑事件,用箭头函数以免this的指向发生改变
+					Array.from(this.btns).forEach((btn,i)=>{
+						btn.onclick=()=>{
+							//每个btn点击时逕函数,并传递参数i进入函数
+							this.btnsClick(i);
+						}
+					})
+					this.goNext.onclick = ()=>{
+						this.goNextClick();
+					}
+					this.goPrev.onclick =()=>{
+						this.goPrevClick();
+					}
+					this.autoPlay();
+				}
+				//
+				changeImg(){
+					//调用方法,每次左移一定的位置,由于多一张,所以每次位移为index+1
+					tools.linearMove(this.box,"left",-(this.index+1)*this.imgs[0].offsetWidth,500);
+					this.btns[this.lastIndex].classList.remove("ac");
+					this.btns[this.index].classList.add("ac");
+					//每次执行后把index的值赋给lastIndex
+					this.lastIndex = this.index;
+				}
+				btnsClick(i){
+					this.index = i;
+					this.changeImg();
+				}
+				
+				goPrevClick(){
+					this.index--;
+					if(this.index<0){
+						this.index = this.btns.length-1;
+						this.box.style.left = -this.box.style.width;
+					}
+					this.changeImg();
+				}
+				goNextClick(){
+					this.index++;
+					if(this.index === this.btns.length){
+						//当每点击一次时index值改变,当改到与btns的长一样走到最后,悄悄改掉left值
+						this.index = 0;
+						this.box.style.left = 0 + "px";	
+					}
+					this.changeImg();
+				}
+				autoPlay(){
+					this.timer=setInterval(()=>{
+						this.goNextClick();
+					},3000)
+					//自动轮播时执行鼠标事件函数
+					this.mouse();
+				}
+				mouse(){
+					this.container.onmouseenter=()=>{
+						clearInterval(this.timer);
+					}
+					
+					this.container.onmouseleave=()=>{
+						this.autoPlay();
+					}
+				}
+			}
+			new lunbo("#div")
+		</script>
+	</body>
+</html>
