@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			*{margin:0;padding:0;box-sizing: border-box;}
+			li{list-style: none;}
+			a{text-decoration: none;}
+			.modal{
+				width:100%;
+				height:100%;
+				background: #31B0D5;
+				opacity: 0.3;
+				position: fixed;
+				left:0;
+				top:0;
+				
+			}
+			#publish{
+				position: absolute;
+				top:0;
+				left:45%;
+				z-index: 2;
+			}
+			#container{
+				display: none;
+				width: 500px;
+				height: 400px;
+				position: absolute;
+				top:0;
+				left:0;
+				bottom:0;
+				right:0;
+				margin:auto;
+				z-index: 20;
+				background: palegoldenrod;
+			
+			}
+			#container  .userName input{
+				height:30px;
+				 width:200px; 
+				 border:1px solid #ccc;
+			}
+			#container .userName{
+				height:30px;
+				position: absolute;
+				top:60px;
+			}
+			#container .content{
+				width: 420px;
+				height: 240px;
+				position: absolute;
+				left:0;
+				right:0;
+				margin:70px auto;
+				border:1px solid beige;
+				z-index: 2;
+			}
+			#container .content .textarea{
+				width: 420px;
+				height: 240px;
+				border:1px solid beige;
+				z-index: 3;
+			}
+			
+			#container h4{
+				width: 500px;
+				background: #CCCCCC;
+				line-height:40px;
+				height:40px;
+				padding-left: 50px;
+				
+			}
+			#container #publi{
+				width: 50px;
+				height: 20px;
+				position: absolute;
+				bottom:8px;
+				right:10px;
+				z-index: 2;
+			} 
+			#container .delBtn{
+				padding-right: 10px;
+				color:#D58512;
+				position: absolute;
+				top:10px;
+				left:90%;
+				z-index: 2;
+			}
+			ul{
+				position: absolute;
+				display:none;
+				width: 200px;
+				
+				border:1px solid #ccc;
+			}
+			ul li{
+				width: 200px;
+				list-style: none;
+				height: 50px;
+				padding-left:20px;
+				line-height: 24px;
+			}
+			.news{width: 400px;
+			     height: 200px;
+				 background: peachpuff;
+				 margin-top:40px;
+				 margin-left:35%;
+				 border:1px solid pink;
+				 }
+		</style>
+	</head>
+	<body>
+		
+		<button id="publish">发布信息</button>
+		<div id="container"></div>
+		
+			<ul class="myMenu">
+				<li>取消</li>
+				<li class="del"><a href="javarscript:;">撤回</a</li>
+				<li>删除</li>
+				<li>刷新</li>
+			</ul>
+		
+		
+		<script type="text/javascript" src="js/pub.js"></script>
+		
+	</body>
+</html>
